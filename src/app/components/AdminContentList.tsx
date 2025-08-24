@@ -10,7 +10,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 export default function AdminContentList() {
   const [content, setContent] = useState<DocumentData[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error] = useState('');
 
   useEffect(() => {
     const fetchContent = async () => {
