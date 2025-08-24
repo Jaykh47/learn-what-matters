@@ -34,7 +34,7 @@ export default function AdminContentList() {
         await deleteDoc(doc(db, 'content', id));
         setContent(content.filter(item => item.id !== id));
         toast.success('Item deleted successfully!', { id: toastId });
-      } catch (err) {
+      } catch (error) {
         toast.error('Failed to delete item.', { id: toastId });
       }
     }
