@@ -10,7 +10,6 @@ import 'react-loading-skeleton/dist/skeleton.css';
 export default function AdminContentList() {
   const [content, setContent] = useState<DocumentData[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error] = useState('');
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -34,8 +33,9 @@ export default function AdminContentList() {
         await deleteDoc(doc(db, 'content', id));
         setContent(content.filter(item => item.id !== id));
         toast.success('Item deleted successfully!', { id: toastId });
-      } catch (error) {
+      } catch (error) { // Changed 'err' to 'error'
         toast.error('Failed to delete item.', { id: toastId });
+        console.error(error); // Log the error for debugging
       }
     }
   };
@@ -43,7 +43,6 @@ export default function AdminContentList() {
   return (
     <div className="w-full max-w-4xl mt-12">
       <h2 className="text-3xl font-bold mb-6 text-center font-heading">Manage Existing Content</h2>
-      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
       <div className="space-y-4">
         {loading ? (
           <SkeletonTheme baseColor="#202020" highlightColor="#444">

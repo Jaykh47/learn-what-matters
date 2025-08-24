@@ -6,7 +6,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from "firebase/firestore"; 
 
 export default function SignUpPage() {
-  const [name, setName] = useState(''); // NEW: State for name
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -21,9 +21,8 @@ export default function SignUpPage() {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Save user details to Firestore, now including the name
       await setDoc(doc(db, "users", user.uid), {
-        name: name, // NEW: Save the name
+        name: name,
         email: user.email,
         role: "student",
       });
@@ -32,7 +31,7 @@ export default function SignUpPage() {
       setName('');
       setEmail('');
       setPassword('');
-    } catch (error: any) {
+    } catch (error: any) { // This is the corrected line
       const errorMessage = error.message;
       setError(errorMessage);
     }
@@ -43,7 +42,6 @@ export default function SignUpPage() {
       <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">Create an Account</h1>
         <form onSubmit={handleSignUp}>
-          {/* NEW: Full Name Input */}
           <div className="mb-4">
             <label className="block text-gray-400 mb-2" htmlFor="name">
               Full Name
