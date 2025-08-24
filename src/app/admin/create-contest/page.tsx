@@ -7,7 +7,6 @@ import { useAuth } from '../../context/AuthContext';
 import { db } from '../../../../lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
-// Judge0 Language IDs
 const languages = [
   { id: 50, name: 'C (GCC 9.2.0)' },
   { id: 54, name: 'C++ (GCC 9.2.0)' },
@@ -27,7 +26,6 @@ export default function CreateContestPage() {
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState('');
 
-  // Page Protection
   useEffect(() => {
     if (!loading && (!user || userProfile?.role !== 'author')) {
       router.push('/');
@@ -99,10 +97,7 @@ export default function CreateContestPage() {
             rows={8}
             required
             className="w-full px-3 py-2 bg-gray-700 rounded-md font-mono"
-            placeholder={`[
-  {"input": "5", "output": "10"},
-  {"input": "-5", "output": "-10"}
-]`}
+            placeholder={'[\n  {"input": "5", "output": "10"},\n  {"input": "-5", "output": "-10"}\n]'}
           />
           <p className="text-xs text-gray-500 mt-1">Provide an array of objects, each with an "input" and "output" key.</p>
         </div>
