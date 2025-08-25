@@ -17,7 +17,7 @@ export default function AdminContentList() {
         const q = query(collection(db, 'content'), orderBy('createdAt', 'desc'));
         const querySnapshot = await getDocs(q);
         setContent(querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-      } catch (err) {
+      } catch (error) {
         toast.error('Failed to fetch content.');
       } finally {
         setLoading(false);

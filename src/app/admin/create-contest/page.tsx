@@ -50,9 +50,13 @@ export default function CreateContestPage() {
       setTitle('');
       setProblemStatement('');
       setTestCases('');
-    } catch (error: any) { // This line is fixed
+    } catch (error: unknown) {
       setMessage('Failed to create contest. Please check if your Test Cases are valid JSON.');
-      console.error(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.error(error);
+      }
     } finally {
       setSubmitting(false);
     }
@@ -64,30 +68,52 @@ export default function CreateContestPage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-900 text-white p-4 pt-12">
-        <div className="w-full max-w-2xl text-center">
-            <Link href="/admin/contests" className="text-blue-400 hover:underline mb-8 inline-block">
-                &larr; Back to Contest Management
-            </Link>
-            <h1 className="text-4xl font-bold">Create a New Coding Contest</h1>
-        </div>
-      
+      <div className="w-full max-w-2xl text-center">
+        <Link href="/admin/contests" className="text-blue-400 hover:underline mb-8 inline-block">
+          &larr; Back to Contest Management
+        </Link>
+        <h1 className="text-4xl font-bold">Create a New Coding Contest</h1>
+      </div>
+
       <form onSubmit={handleSubmit} className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-2xl mt-8">
         <div className="mb-4">
           <label className="block text-gray-400 mb-2" htmlFor="title">Contest Title*</label>
-          <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} required className="w-full px-3 py-2 bg-gray-700 rounded-md" />
+          <input
+            type="text"
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+            className="w-full px-3 py-2 bg-gray-700 rounded-md"
+          />
         </div>
-        
+
         <div className="mb-4">
           <label className="block text-gray-400 mb-2" htmlFor="language">Language*</label>
-          <select id="language" value={languageId} onChange={(e) => setLanguageId(Number(e.target.value))} className="w-full px-3 py-2 bg-gray-700 rounded-md">
-            {languages.map(lang => <option key={lang.id} value={lang.id}>{lang.name}</option>)}
+          <select
+            id="language"
+            value={languageId}
+            onChange={(e) => setLanguageId(Number(e.target.value))}
+            className="w-full px-3 py-2 bg-gray-700 rounded-md"
+          >
+            {languages.map((lang) => (
+              <option key={lang.id} value={lang.id}>{lang.name}</option>
+            ))}
           </select>
         </div>
 
         <div className="mb-4">
           <label className="block text-gray-400 mb-2" htmlFor="problem">Problem Statement*</label>
-          <textarea id="problem" value={problemStatement} onChange={(e) => setProblemStatement(e.target.value)} rows={8} required className="w-full px-3 py-2 bg-gray-700 rounded-md" />
+          <textarea
+            id="problem"
+            value={problemStatement}
+            onChange={(e) => setProblemStatement(e.target.value)}
+            rows={8}
+            required
+            className="w-full px-3 py-2 bg-gray-700 rounded-md"
+          />
         </div>
+
         <div className="mb-6">
           <label className="block text-gray-400 mb-2" htmlFor="test-cases">Test Cases (JSON format)*</label>
           <textarea
@@ -97,12 +123,18 @@ export default function CreateContestPage() {
             rows={8}
             required
             className="w-full px-3 py-2 bg-gray-700 rounded-md font-mono"
-            // This placeholder is fixed
-            placeholder={'[\n  {"input": "5", "output": "10"},\n  {"input": "-5", "output": "-10"}\n]'}
+            placeholder={'[\n  {&quot;input&quot;: &quot;5&quot;, &quot;output&quot;: &quot;10&quot;},\n  {&quot;input&quot;: &quot;-5&quot;, &quot;output&quot;: &quot;-10&quot;}\n]'}
           />
-          <p className="text-xs text-gray-500 mt-1">Provide an array of objects, each with an "input" and "output" key.</p>
+          <p className="text-xs text-gray-500 mt-1">
+            Provide an array of objects, each with an &quot;input&quot; and &quot;output&quot; key.
+          </p>
         </div>
-        <button type="submit" disabled={submitting} className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md disabled:bg-gray-500">
+
+        <button
+          type="submit"
+          disabled={submitting}
+          className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md disabled:bg-gray-500"
+        >
           {submitting ? 'Creating...' : 'Create Contest'}
         </button>
         {message && <p className="mt-4 text-center text-sm">{message}</p>}

@@ -31,9 +31,12 @@ export default function SignUpPage() {
       setName('');
       setEmail('');
       setPassword('');
-    } catch (error: any) { // This is the corrected line
-      const errorMessage = error.message;
-      setError(errorMessage);
+    } catch (error: unknown) {  
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('An unexpected error occurred.');
+      }
     }
   };
 
