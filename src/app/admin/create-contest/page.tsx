@@ -50,7 +50,7 @@ export default function CreateContestPage() {
       setTitle('');
       setProblemStatement('');
       setTestCases('');
-    } catch (error: any) { // Added :any type
+    } catch (error: any) { // This line is fixed
       setMessage('Failed to create contest. Please check if your Test Cases are valid JSON.');
       console.error(error);
     } finally {
@@ -97,7 +97,7 @@ export default function CreateContestPage() {
             rows={8}
             required
             className="w-full px-3 py-2 bg-gray-700 rounded-md font-mono"
-            // This is the corrected placeholder
+            // This placeholder is fixed
             placeholder={'[\n  {"input": "5", "output": "10"},\n  {"input": "-5", "output": "-10"}\n]'}
           />
           <p className="text-xs text-gray-500 mt-1">Provide an array of objects, each with an "input" and "output" key.</p>
